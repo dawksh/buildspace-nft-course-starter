@@ -3,6 +3,8 @@ import twitterLogo from "./assets/twitter-logo.svg";
 import React, { useEffect, useState } from "react";
 import MyNFT from "./assets/MyNFT.json";
 import { ethers } from "ethers";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
 
 // Constants
 const TWITTER_HANDLE = "dawksh";
@@ -10,6 +12,7 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const checkIfWalletIsConnected = async () => {
     /*
@@ -71,6 +74,13 @@ const App = () => {
     checkIfWalletIsConnected();
   }, []);
 
+  const toggleConfetti = () => {
+    setShowConfetti(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+    }, 3000);
+  };
+
   const askContractToMintNft = async () => {
     const CONTRACT_ADDRESS = "0x4738a45D13722568D556db003Fbd555f4C988A62";
     try {
@@ -90,7 +100,7 @@ const App = () => {
 
         console.log("Mining...please wait.");
         await nftTxn.wait();
-
+        toggleConfetti();
         console.log(
           `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
         );
@@ -101,6 +111,8 @@ const App = () => {
       console.log(error);
     }
   };
+
+  const { width, height } = useWindowSize();
 
   const renderNotConnectedContainer = () => (
     <button
@@ -125,6 +137,7 @@ const App = () => {
       <div className="container">
         <div className="header-container">
           <p className="header gradient-text">My NFT Collection</p>
+          {showConfetti ? <Confetti width={width} height={height} /> : null}
           <p className="sub-text">
             Each unique. Each beautiful. Discover your NFT today.
           </p>
