@@ -78,11 +78,11 @@ const App = () => {
     setShowConfetti(true);
     setTimeout(() => {
       setShowConfetti(false);
-    }, 10000);
+    }, 8000);
   };
 
   const askContractToMintNft = async () => {
-    const CONTRACT_ADDRESS = "0x4738a45D13722568D556db003Fbd555f4C988A62";
+    const CONTRACT_ADDRESS = "0xaaB87145E6ad96376f4B8F31557C8f74be2e310E";
     try {
       const { ethereum } = window;
 
