@@ -78,7 +78,7 @@ const App = () => {
     setShowConfetti(true);
     setTimeout(() => {
       setShowConfetti(false);
-    }, 3000);
+    }, 10000);
   };
 
   const askContractToMintNft = async () => {
