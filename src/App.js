@@ -12,7 +12,9 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [svg, setSvg] = useState('');
   const [showConfetti, setShowConfetti] = useState(false);
+  const [minting, setMinting] = (false);
 
   const checkIfWalletIsConnected = async () => {
     /*
@@ -82,7 +84,7 @@ const App = () => {
   };
 
   const askContractToMintNft = async () => {
-    const CONTRACT_ADDRESS = "0xaaB87145E6ad96376f4B8F31557C8f74be2e310E";
+    const CONTRACT_ADDRESS = "0xe75522A1A8E0Eb4Eca12407772F09DaAF3E3889c";
     try {
       const { ethereum } = window;
 
@@ -104,6 +106,19 @@ const App = () => {
         console.log(
           `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
         );
+
+        connectedContract.on("newMint", (sender, json) => {
+          console.log(json);
+          let tempArr = json.split(",");
+          let tempObj = atob(tempArr[1]);
+          console.log(tempObj);
+          tempObj = JSON.parse(tempObj);
+          let imgArr = tempObj.image.split(",");
+          let img = atob(imgArr[1])
+          setSvg(img);
+          setMinting(true);
+        })
+
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -145,6 +160,7 @@ const App = () => {
             ? renderNotConnectedContainer()
             : renderMintUI()}
         </div>
+        {minting ? (<img src={svg} alt="your minted svg">/>) : (<></>)}
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
