@@ -12,9 +12,9 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
-  const [svg, setSvg] = useState('');
+  const [svg, setSvg] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
-  const [minting, setMinting] = (false);
+  const [minting, setMinting] = false;
 
   const checkIfWalletIsConnected = async () => {
     /*
@@ -114,11 +114,10 @@ const App = () => {
           console.log(tempObj);
           tempObj = JSON.parse(tempObj);
           let imgArr = tempObj.image.split(",");
-          let img = atob(imgArr[1])
+          let img = atob(imgArr[1]);
           setSvg(img);
           setMinting(true);
-        })
-
+        });
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -160,7 +159,7 @@ const App = () => {
             ? renderNotConnectedContainer()
             : renderMintUI()}
         </div>
-        {minting ? (<img src={svg} alt="your minted svg">/>) : (<></>)}
+        {minting ? <img src={svg} alt="your minted svg" /> : <></>}
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
